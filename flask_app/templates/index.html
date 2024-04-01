@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}- Welcome{% endblock title %}
+
+{% block content %}
+  <div class="row justify-content-center align-items-center w-100" id="content">
+    <div class="col-lg-8 col-sm-12">
+      <div class="card shadow">
+        <div class="card-body">
+          <h1 class="display-3">Your very own private wall.</h1>
+          <p class="lead">Send and receive discretely.</p>
+        </div>
+        <div class="card-footer d-flex justify-content-end align-items-center gap-2">
+          <a
+            href="{{ url_for('login_form') }}"
+            class="btn btn-lg btn-secondary">
+            Login
+          </a>
+          <a
+            href="{{ url_for('register_form') }}"
+            class="btn btn-lg btn-primary">
+            Register Now
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

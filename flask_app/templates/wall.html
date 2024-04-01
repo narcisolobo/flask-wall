@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}- Messages{% endblock title %}
+
+{% block content %}
+  <div class="row justify-content-center align-items-start w-100">
+    <div class="col-lg-6 col-sm-12">
+      <div class="card shadow">
+        <div class="card-body">
+          <h1 class="display-4">{{ notes|length }} Message(s) for you:</h1>
+          {% for note in notes %}            
+            <div class="alert alert-primary text-primary" role="alert">
+              <div class="d-flex justify-content-between align-items-center">
+                <figure class="mb-0">
+                  <blockquote class="blockquote">
+                    <p>{{ note.body }}</p>
+                  </blockquote>
+                  <figcaption class="blockquote-footer mb-0 text-black-50">
+                    {{ note.sender.first_name }} ({{ note.created_at|timeago }})
+                  </figcaption>
+                </figure>
+                <button type="button" class="btn btn-sm btn-outline-primary border-0" aria-label="Close">
+                  <i class="bi bi-trash fs-6"></i>
+                </button>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-sm-12">
+      <div class="card shadow">
+        <div class="card-body">
+          <h1 class="display-4">Send Messages:</h1>
+          <p class="lead">You've sent {{ count }} messages so far.</p>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for recipient in recipients %}            
+            <form action="{{ url_for('send_note') }}" method="POST" class="border rounded-3 p-2 shadow mb-3">
+              <input type="hidden" name="sender_id" value="{{ session.user_id }}">
+              <input type="hidden" name="recipient_id" value="{{ recipient.id }}">
+              <input type="hidden" name="recipient_name" value="{{ recipient.first_name }}">
+              <div class="mb-1">
+                <label for="body" class="form-label">Send a message to {{ recipient.first_name }}:</label>
+                <textarea name="body" id="body" class="form-control form-control-sm"></textarea>
+                {% if messages %}
+                  {% for category, message in messages %}
+                    {% if category == recipient.first_name %}
+                      <span class="form-text text-primary">{{ message }}</span>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              </div>
+              <div class="text-end">
+                <button type="submit" class="btn btn-sm btn-link link-info">Send</button>
+              </div>
+            </form>
+          {% endfor %}
+          {% endwith %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

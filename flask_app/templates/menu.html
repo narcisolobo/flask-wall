@@ -1,0 +1,30 @@
+<div class="collapse navbar-collapse" id="navbarNav">
+  <ul class="navbar-nav me-auto">
+    <li class="nav-item">
+      <a
+        href="{{ url_for('index') }}"
+        class="nav-link {{ 'active' if request.path == '/' else '' }}">
+        Home
+      </a>
+    </li>
+  </ul>
+  {% if 'user_id' in session %}    
+  <div class="d-flex align-items-center gap-2">
+    <span class="navbar-text">Welcome, {{ user.first_name }}</span>
+    <form action="{{ url_for('logout_user') }}" method="post">
+      <button type="submit" class="btn btn-sm btn-secondary">
+        Logout
+      </button>
+    </form>
+  </div>
+  {% else %}
+  <div class="d-flex align-items-center gap-2">
+    <a href="{{ url_for('login_form') }}" class="btn btn-sm btn-outline-secondary">
+      Login
+    </a>
+    <a href="{{ url_for('register_form') }}" class="btn btn-sm btn-secondary">
+      Register
+    </a>
+  </div>
+  {% endif %}
+</div>
